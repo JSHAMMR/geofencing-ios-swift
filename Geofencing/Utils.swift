@@ -8,6 +8,7 @@
 
 import UIKit
 import SystemConfiguration.CaptiveNetwork
+import MapKit
 
 extension UIViewController {
     
@@ -41,3 +42,14 @@ extension UIViewController {
         }
     }
 }
+
+extension MKMapView {
+    func zoom() {
+        guard let coordinate = userLocation.location?.coordinate else { return }
+        let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 300, longitudinalMeters: 300)
+        setRegion(region, animated: true)
+    }
+    
+    
+}
+

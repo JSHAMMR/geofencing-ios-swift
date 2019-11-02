@@ -16,6 +16,7 @@
 		DCA974FF236DE62200DA9CE4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCA974FD236DE62200DA9CE4 /* LaunchScreen.storyboard */; };
 		DCA9750A236DE62200DA9CE4 /* GeofencingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA97509236DE62200DA9CE4 /* GeofencingTests.swift */; };
 		DCA97516236DEADD00DA9CE4 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA97515236DEADD00DA9CE4 /* Utils.swift */; };
+		DCA97518236DF09C00DA9CE4 /* Route.gpx in Resources */ = {isa = PBXBuildFile; fileRef = DCA97517236DF09C00DA9CE4 /* Route.gpx */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		DCA9750B236DE62200DA9CE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DCA97514236DE85B00DA9CE4 /* Geofencing.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Geofencing.entitlements; sourceTree = "<group>"; };
 		DCA97515236DEADD00DA9CE4 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		DCA97517236DF09C00DA9CE4 /* Route.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Route.gpx; sourceTree = "<group>"; };
 		EEF464B4BBEFB9F2FCA6FD52 /* Pods-GeofencingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GeofencingTests.debug.xcconfig"; path = "Target Support Files/Pods-GeofencingTests/Pods-GeofencingTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F7A3C6204ACDE4D88F298C1A /* Pods_GeofencingTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GeofencingTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -92,6 +94,7 @@
 		DCA974E8236DE61F00DA9CE4 = {
 			isa = PBXGroup;
 			children = (
+				DCA97517236DF09C00DA9CE4 /* Route.gpx */,
 				DCA974F3236DE61F00DA9CE4 /* Geofencing */,
 				DCA97508236DE62200DA9CE4 /* GeofencingTests */,
 				DCA974F2236DE61F00DA9CE4 /* Products */,
@@ -222,6 +225,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DCA974FF236DE62200DA9CE4 /* LaunchScreen.storyboard in Resources */,
+				DCA97518236DF09C00DA9CE4 /* Route.gpx in Resources */,
 				DCA974FC236DE62200DA9CE4 /* Assets.xcassets in Resources */,
 				DCA974FA236DE61F00DA9CE4 /* Main.storyboard in Resources */,
 			);

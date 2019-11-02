@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<gpx version="1.1" creator="Xcode">
+
+  <wpt lat="3.116945" lon="101.639762">
+    <name>WP001</name>
+    <time>2018-03-27T18:28:04Z</time>
+  </wpt>
+  
+  <wpt lat="3.115758" lon="101.638574">
+      <name>WP002</name>
+      <time>2018-03-27T18:29:04Z</time>
+  </wpt>
+
+  <wpt lat="3.116025" lon="101.639914">
+      <name>WP003</name>
+      <time>2018-03-27T18:29:04Z</time>
+  </wpt>
+  
+  
+ 
+</gpx>

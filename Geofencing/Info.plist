@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Geotify requires constant access to your phone’s location to notify you when you enter or leave a geofence.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Geotify requires constant access to your phone’s location to notify you when you enter or leave a geofence.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
