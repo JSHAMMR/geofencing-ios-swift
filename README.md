@@ -34,6 +34,9 @@ alt="IMAGE ALT TEXT HERE" width="651" height="400" border="10" /></a>
 <ul>
  <li> For Wifi setting please change "YOUR SSID" and  "YOUR BSSID"  </li>
  <li> For app flow please follow the above dropbox video  </li>
+  
+ <li style="color:red;">To get Wifi info you have to use app id which configured to allow this feature on developer account  </li>
+
 
 </ul>
 
