@@ -40,6 +40,24 @@ alt="IMAGE ALT TEXT HERE" width="651" height="400" border="10" /></a>
 
 </ul>
 
+<h2>Test Cases </h2>
+<ul>
+ <li>testGesture</li>
+ <li>testLocationManager</li>
+   <li>testLocationManagerServicesEnabled</li>
+ <li>testLocationManagerAuthorizationStatusAlways</li>
+
+</ul>
+
+
+<h2>Repository Branches</h2>
+<ul>
+ <li>Master</li>
+ <li>MVC</li>
+</ul>
+
+
+
 <h2>Creat fake routing </h2>
 <ul>
  <li>Using google map to get direction of any route then use this website https://mapstogpx.com/ to convert to GPX </li>
@@ -48,6 +66,11 @@ alt="IMAGE ALT TEXT HERE" width="651" height="400" border="10" /></a>
 <ul>
  <li> iOS Monitoring <a href="https://developer.apple.com/documentation/corelocation/monitoring_the_user_s_proximity_to_geographic_regions">link</a></li>
   <li> GMS Geometry <a href="https://developers.google.com/maps/documentation/ios-sdk/reference/group___geometry_utils.html#gaba958d3776d49213404af249419d0ffd">link</a></li>
+</ul>
+
+<h2>Future Work </h2>
+<ul>
+ <li>Add new branch for VIP (Clean Swift) Architecture </li>
 </ul>
 
 
