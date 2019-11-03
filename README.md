@@ -10,9 +10,9 @@ alt="IMAGE ALT TEXT HERE" width="651" height="400" border="10" /></a>
 </br>
 
 
-<h5> Geofencing monitoring in iOS has limitation as it supports circle region only  (CLCircularRegion). So We have to think in different way to implement polygon regions because the majority of regions are in polygon shape.</h5>
+<h5> Geofencing monitoring in iOS has limitation as it supports circle region only  (CLCircularRegion). So We have to think in different way to implement polygon regions because the majority of regions are in polygon shape.
 
-<h6> Because of that I used third party library which is Google map to check if the point lies of path coordinates and it worked successfully.</h6>
+ Because of that I used third party library which is Google map to check if the point lies of path coordinates and it worked successfully.</h5>
 
 </br>
 
