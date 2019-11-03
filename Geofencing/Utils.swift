@@ -10,6 +10,9 @@ import UIKit
 import SystemConfiguration.CaptiveNetwork
 import MapKit
 
+
+
+
 extension UIViewController {
     
     func getWifiInfo() -> Array<WifiInfo> {

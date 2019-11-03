@@ -18,6 +18,11 @@ enum NotificationError: Error {
     
 }
 
+enum Constants {
+    static let SSID = "RAZAN_5G"
+    static let BSSID = "d4:6e:e:80:72:7e"
+}
+
 class ViewController: UIViewController {
 
     @IBOutlet weak var map: MKMapView!
@@ -336,6 +341,29 @@ class ViewController: UIViewController {
         return randomString
     }
 
+    
+    func hasWifi() -> Bool {
+        var hasWifiB = false
+        if self.getWifiInfo().count > 0 {
+            
+            
+            
+            
+            self.getWifiInfo().forEach({
+                
+                if ($0.bssid == Constants.BSSID || $0.ssid == Constants.SSID) {
+                    hasWifiB = true
+                } else {
+                    hasWifiB = false
+                    
+                }
+                
+            })
+            
+            
+        }
+        return hasWifiB
+    }
 
 }
 
@@ -357,7 +385,11 @@ extension ViewController: CLLocationManagerDelegate {
     }
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
 
-        if self.polygonCoordinate.count == 0 {
+     
+        
+        
+        
+        if self.polygonCoordinate.count == 0 { // means no polygon region on the same time
             self.title = "CHECK IN"
             navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
             
@@ -368,11 +400,21 @@ extension ViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
-        if self.polygonCoordinate.count == 0 {
+        
+        
+  
+        
+        if self.polygonCoordinate.count == 0 { // means no polygon region on the same time
+            
+            
+            if (!self.hasWifi()) { // means no specific wifi is connected
+                
+                self.title = "CHECK OUT"
+                navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
+                scheduleNotification(title: "CHECK OUT", body: "You already exite the geofencing region ..! ")
+            }
 
-        self.title = "CHECK OUT"
-        navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
-        scheduleNotification(title: "CHECK OUT", body: "You already exite the geofencing region ..! ")
+        
         }
 
     }
@@ -406,18 +448,19 @@ extension ViewController: CLLocationManagerDelegate {
         /////////////
         
         
+      
+        
+        //////
         
         
         
         
         
-        
-    print("longitude \(Double((locations.last?.coordinate.longitude)!))\nlatitude \(Double((locations.last?.coordinate.latitude)!))")
+        print("longitude \(Double((locations.last?.coordinate.longitude)!))\nlatitude \(Double((locations.last?.coordinate.latitude)!)) hasWifi : \(self.hasWifi())")
         
         
         
         // for polygon
-        
         
         
         if polygonCoordinate.count > 0 { // means the polygon has been chosen
@@ -430,32 +473,61 @@ extension ViewController: CLLocationManagerDelegate {
                 path.add($0)
             })
             
-            if GMSGeometryContainsLocation(point, path, false) {
+            if (self.hasWifi() || GMSGeometryContainsLocation(point, path, false)) {
                 print("inside")
                 
                 if status != "CHECK IN" {
-                    scheduleNotification(title: "CHECK IN", body: "You already enter the geofencing region ..! ")
+                    scheduleNotification(title: "CHECK IN", body: "You already enter the geofencing region ..! \(self.hasWifi() ?"Using Wifi":"")")
                 }
                 
+
+                
+                
                 status = "CHECK IN"
-                self.title = status
+                self.title = "CHECK IN \(self.hasWifi() ?"Using Wifi":"")"
                 navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
 
 
                 
             } else {
                 
+                
+               
+                
                 if status != "CHECK OUT" {
-                    scheduleNotification(title: "CHECK OUT", body: "You already exite the geofencing region ..! ")
+                    scheduleNotification(title: "CHECK OUT", body: "You already exite the geofencing region ..! \(self.hasWifi() ?"Using Wifi":"")")
 
                 }
                 
                 status = "CHECK OUT"
-                self.title = status
+                self.title = "CHECK OUT \(self.hasWifi() ?"Using Wifi":"")"
                 navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
 
                 print("outside")
             }
+            
+        } else if (!self.hasWifi() && self.locationManager.monitoredRegions.count == 0 ) { // means no circle region and no wifi
+            if status != "CHECK OUT" {
+                scheduleNotification(title: "CHECK OUT", body: "You already exite the geofencing region ..! ")
+                
+            }
+            
+            status = "CHECK OUT"
+            self.title = status
+            navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
+            
+            print("outside")
+        } else if self.hasWifi() { // has wifi ---
+            
+            self.title = "CHECK In \(self.hasWifi() ?"Using Wifi":"")"
+            navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
+            
+            if status != "CHECK IN" {
+                scheduleNotification(title: "CHECK IN", body: "You already enter the geofencing region ..! \(self.hasWifi() ?"Using Wifi":"")")
+            }
+            
+            status = "CHECK IN"
+
             
         }
         
