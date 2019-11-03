@@ -16,6 +16,10 @@
 		DCA974FF236DE62200DA9CE4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCA974FD236DE62200DA9CE4 /* LaunchScreen.storyboard */; };
 		DCA9750A236DE62200DA9CE4 /* GeofencingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA97509236DE62200DA9CE4 /* GeofencingTests.swift */; };
 		DCA97516236DEADD00DA9CE4 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA97515236DEADD00DA9CE4 /* Utils.swift */; };
+		DCA97518236DF09C00DA9CE4 /* Route.gpx in Resources */ = {isa = PBXBuildFile; fileRef = DCA97517236DF09C00DA9CE4 /* Route.gpx */; };
+		DCA97519236EC7B500DA9CE4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA974F6236DE61F00DA9CE4 /* ViewController.swift */; };
+		DCA9751A236EC7CF00DA9CE4 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA97515236DEADD00DA9CE4 /* Utils.swift */; };
+		DCA9751B236ECCD200DA9CE4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCA974F8236DE61F00DA9CE4 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +49,7 @@
 		DCA9750B236DE62200DA9CE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DCA97514236DE85B00DA9CE4 /* Geofencing.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Geofencing.entitlements; sourceTree = "<group>"; };
 		DCA97515236DEADD00DA9CE4 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		DCA97517236DF09C00DA9CE4 /* Route.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Route.gpx; sourceTree = "<group>"; };
 		EEF464B4BBEFB9F2FCA6FD52 /* Pods-GeofencingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GeofencingTests.debug.xcconfig"; path = "Target Support Files/Pods-GeofencingTests/Pods-GeofencingTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F7A3C6204ACDE4D88F298C1A /* Pods_GeofencingTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GeofencingTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -92,6 +97,7 @@
 		DCA974E8236DE61F00DA9CE4 = {
 			isa = PBXGroup;
 			children = (
+				DCA97517236DF09C00DA9CE4 /* Route.gpx */,
 				DCA974F3236DE61F00DA9CE4 /* Geofencing */,
 				DCA97508236DE62200DA9CE4 /* GeofencingTests */,
 				DCA974F2236DE61F00DA9CE4 /* Products */,
@@ -144,6 +150,7 @@
 				DCA974ED236DE61F00DA9CE4 /* Sources */,
 				DCA974EE236DE61F00DA9CE4 /* Frameworks */,
 				DCA974EF236DE61F00DA9CE4 /* Resources */,
+				3E98535C94216AD554024DD0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -189,6 +196,9 @@
 							com.apple.AccessWiFi = {
 								enabled = 1;
 							};
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 						};
 					};
 					DCA97504236DE62200DA9CE4 = {
@@ -222,6 +232,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DCA974FF236DE62200DA9CE4 /* LaunchScreen.storyboard in Resources */,
+				DCA97518236DF09C00DA9CE4 /* Route.gpx in Resources */,
 				DCA974FC236DE62200DA9CE4 /* Assets.xcassets in Resources */,
 				DCA974FA236DE61F00DA9CE4 /* Main.storyboard in Resources */,
 			);
@@ -231,6 +242,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCA9751B236ECCD200DA9CE4 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,6 +269,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3E98535C94216AD554024DD0 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Geofencing/Pods-Geofencing-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Geofencing/Pods-Geofencing-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D2C9EAC19F29E8A8FB2D0206 /* [CP] Check Pods Manifest.lock */ = {
@@ -298,7 +332,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCA97519236EC7B500DA9CE4 /* ViewController.swift in Sources */,
 				DCA9750A236DE62200DA9CE4 /* GeofencingTests.swift in Sources */,
+				DCA9751A236EC7CF00DA9CE4 /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
