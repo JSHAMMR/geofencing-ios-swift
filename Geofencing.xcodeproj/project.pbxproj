@@ -17,6 +17,9 @@
 		DCA9750A236DE62200DA9CE4 /* GeofencingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA97509236DE62200DA9CE4 /* GeofencingTests.swift */; };
 		DCA97516236DEADD00DA9CE4 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA97515236DEADD00DA9CE4 /* Utils.swift */; };
 		DCA97518236DF09C00DA9CE4 /* Route.gpx in Resources */ = {isa = PBXBuildFile; fileRef = DCA97517236DF09C00DA9CE4 /* Route.gpx */; };
+		DCA97519236EC7B500DA9CE4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA974F6236DE61F00DA9CE4 /* ViewController.swift */; };
+		DCA9751A236EC7CF00DA9CE4 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA97515236DEADD00DA9CE4 /* Utils.swift */; };
+		DCA9751B236ECCD200DA9CE4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCA974F8236DE61F00DA9CE4 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -239,6 +242,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCA9751B236ECCD200DA9CE4 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,7 +332,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCA97519236EC7B500DA9CE4 /* ViewController.swift in Sources */,
 				DCA9750A236DE62200DA9CE4 /* GeofencingTests.swift in Sources */,
+				DCA9751A236EC7CF00DA9CE4 /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

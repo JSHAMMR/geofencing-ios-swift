@@ -11,12 +11,21 @@ import MapKit
 import GoogleMaps
 import UserNotifications
 
+
+
+enum NotificationError: Error {
+    case failedRightNavBarImage
+    
+}
+
 class ViewController: UIViewController {
 
     @IBOutlet weak var map: MKMapView!
-    fileprivate let locationManager = CLLocationManager()
-    private var longGesture = UILongPressGestureRecognizer()
+    let locationManager = CLLocationManager()
+    var longGesture = UILongPressGestureRecognizer()
     fileprivate var status:String!
+    
+   
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,16 +33,8 @@ class ViewController: UIViewController {
         
         
         // notification setup
-        
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert]) {
-            (granted, error) in
-            if granted {
-                print("yes")
-            } else {
-                print("No")
-            }
-        }
-        
+        notificationSetup()
+       
         
         /// map delegate
         
@@ -42,10 +43,13 @@ class ViewController: UIViewController {
         
         
         
+        
+        
         // locationManager
         
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
+        
         locationManager.startUpdatingLocation()
         locationManager.distanceFilter = 1
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -55,10 +59,7 @@ class ViewController: UIViewController {
         
         // stop any existing monitered region
         
-        for itemRegion in locationManager.monitoredRegions {
-            locationManager.stopMonitoring(for: itemRegion)
-        }
-        
+       stopExistingMoniteredRegion()
         
         // add Gesture to get touch Location on map
         
@@ -70,6 +71,32 @@ class ViewController: UIViewController {
       //  self.setupCircleGeofencing(title: "test", lat: 3.116103930822632 , long: 101.63855281568493, radius: 100)
 
         // Do any additional setup after loading the view.
+    }
+    
+    
+    
+    func notificationSetup () {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert]) {
+            (granted, error) in
+            if granted {
+                print("yes")
+            } else {
+                print("No")
+            }
+        }
+        
+        
+        
+    }
+    
+    func stopExistingMoniteredRegion()  {
+        
+        // stop any existing monitered region
+        
+        for itemRegion in locationManager.monitoredRegions {
+            locationManager.stopMonitoring(for: itemRegion)
+        }
+        
     }
     
     func scheduleNotification(title: String, body: String) {
@@ -142,11 +169,12 @@ class ViewController: UIViewController {
         } else {
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
             let circle = UIAlertAction(title: "CIRCLE", style: .default, handler: { action in
-                self.polygonCoordinate.removeAll()
+                self.polygonCoordinate.removeAll() // clean path
                 self.circleAlert(withTitle: "CIRCLE", message: "PLEASE ENTER REGION TITLE AND RADIUS \n lat : \(lat) \n long:\(long)", lat: lat, long: long)
             })
             let polygon = UIAlertAction(title: "POLYGON", style: .default, handler: { action in
-                self.polygonCoordinate.removeAll()
+                self.polygonCoordinate.removeAll() // clean path
+                self.stopExistingMoniteredRegion() //  stop other monitored regoins
 
                  self.polygonAlert(withTitle: "POLYGON", message: "ADDING TO POLYGON SHAPE \n lat : \(lat) \n long:\(long)", lat: lat, long: long)
             })
@@ -329,17 +357,23 @@ extension ViewController: CLLocationManagerDelegate {
     }
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
 
-        self.title = "CHECK IN"
-        navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
-        
-        scheduleNotification(title: "CHECK IN", body: "You already enter the geofencing region ..! ")
+        if self.polygonCoordinate.count == 0 {
+            self.title = "CHECK IN"
+            navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
+            
+            scheduleNotification(title: "CHECK IN", body: "You already enter the geofencing region ..! ")
+            
+        }
         
     }
     
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+        if self.polygonCoordinate.count == 0 {
+
         self.title = "CHECK OUT"
         navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
         scheduleNotification(title: "CHECK OUT", body: "You already exite the geofencing region ..! ")
+        }
 
     }
 
@@ -378,7 +412,7 @@ extension ViewController: CLLocationManagerDelegate {
         
         
         
-   // print("longitude \(Double((locations.last?.coordinate.longitude)!))\nlatitude \(Double((locations.last?.coordinate.latitude)!))")
+    print("longitude \(Double((locations.last?.coordinate.longitude)!))\nlatitude \(Double((locations.last?.coordinate.latitude)!))")
         
         
         
@@ -400,27 +434,25 @@ extension ViewController: CLLocationManagerDelegate {
                 print("inside")
                 
                 if status != "CHECK IN" {
-                    //self.scheduleNotification(notificationType: "CHECK IN")
+                    scheduleNotification(title: "CHECK IN", body: "You already enter the geofencing region ..! ")
                 }
                 
                 status = "CHECK IN"
                 self.title = status
-                navigationController?.navigationBar.barTintColor = UIColor.green
-                
-                scheduleNotification(title: "CHECK IN", body: "You already enter the geofencing region ..! ")
+                navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
+
 
                 
             } else {
                 
                 if status != "CHECK OUT" {
-                    // self.scheduleNotification(notificationType: "CHECK OUT")
-                    
+                    scheduleNotification(title: "CHECK OUT", body: "You already exite the geofencing region ..! ")
+
                 }
                 
                 status = "CHECK OUT"
                 self.title = status
-                navigationController?.navigationBar.barTintColor = UIColor.red
-                scheduleNotification(title: "CHECK OUT", body: "You already exite the geofencing region ..! ")
+                navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
 
                 print("outside")
             }
