@@ -3,8 +3,8 @@
 </br>
 
 <a href="https://www.dropbox.com/s/yr8rzzr801qy649/record.mov?dl=0">
-  <img src="http://img.youtube.com/vi/twGP6-QcKAA/0.jpg" 
-alt="IMAGE ALT TEXT HERE" width="551" height="335" border="10" /></a>
+  <img src="https://github.com/JSHAMMR/Geofencing/blob/master/Docs/Screenshot%202019-11-04%20at%201.13.04%20AM.png" 
+alt="IMAGE ALT TEXT HERE" width="651" height="400" border="10" /></a>
 
 </br>
 </br>
