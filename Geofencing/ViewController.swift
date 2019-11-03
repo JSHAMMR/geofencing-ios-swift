@@ -19,8 +19,8 @@ enum NotificationError: Error {
 }
 
 enum Constants {
-    static let SSID = "RAZAN_5G"
-    static let BSSID = "d4:6e:e:80:72:7e"
+    static let SSID = "YOUR SSID"
+    static let BSSID = "YOUR BSSID"
 }
 
 class ViewController: UIViewController {
