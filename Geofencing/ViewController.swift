@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import GoogleMaps
+import UserNotifications
 
 class ViewController: UIViewController {
 
@@ -20,10 +21,28 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        
+        // notification setup
+        
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert]) {
+            (granted, error) in
+            if granted {
+                print("yes")
+            } else {
+                print("No")
+            }
+        }
+        
+        
+        /// map delegate
+        
         map.delegate = self
         
         
         
+        
+        // locationManager
         
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
@@ -40,6 +59,9 @@ class ViewController: UIViewController {
             locationManager.stopMonitoring(for: itemRegion)
         }
         
+        
+        // add Gesture to get touch Location on map
+        
         longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPress(_:)))
         longGesture.minimumPressDuration = 0.5
         map.addGestureRecognizer(longGesture)
@@ -48,6 +70,21 @@ class ViewController: UIViewController {
       //  self.setupCircleGeofencing(title: "test", lat: 3.116103930822632 , long: 101.63855281568493, radius: 100)
 
         // Do any additional setup after loading the view.
+    }
+    
+    func scheduleNotification(title: String, body: String) {
+        
+        let content = UNMutableNotificationContent()
+        
+        content.title = title
+        content.body = body
+        content.sound = UNNotificationSound.default
+        content.badge = 1
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false) // send notification in 0.1 sec
+        let request = UNNotificationRequest(identifier: randomString(length: 10), content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
     
     @objc func longPress(_ sender: UILongPressGestureRecognizer) {
@@ -294,13 +331,16 @@ extension ViewController: CLLocationManagerDelegate {
 
         self.title = "CHECK IN"
         navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
-
+        
+        scheduleNotification(title: "CHECK IN", body: "You already enter the geofencing region ..! ")
         
     }
     
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
         self.title = "CHECK OUT"
         navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
+        scheduleNotification(title: "CHECK OUT", body: "You already exite the geofencing region ..! ")
+
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -367,6 +407,9 @@ extension ViewController: CLLocationManagerDelegate {
                 self.title = status
                 navigationController?.navigationBar.barTintColor = UIColor.green
                 
+                scheduleNotification(title: "CHECK IN", body: "You already enter the geofencing region ..! ")
+
+                
             } else {
                 
                 if status != "CHECK OUT" {
@@ -377,7 +420,8 @@ extension ViewController: CLLocationManagerDelegate {
                 status = "CHECK OUT"
                 self.title = status
                 navigationController?.navigationBar.barTintColor = UIColor.red
-                
+                scheduleNotification(title: "CHECK OUT", body: "You already exite the geofencing region ..! ")
+
                 print("outside")
             }
             
