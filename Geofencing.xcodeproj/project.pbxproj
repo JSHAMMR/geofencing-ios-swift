@@ -193,6 +193,9 @@
 							com.apple.AccessWiFi = {
 								enabled = 1;
 							};
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 						};
 					};
 					DCA97504236DE62200DA9CE4 = {

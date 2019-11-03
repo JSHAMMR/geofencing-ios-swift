@@ -31,7 +31,7 @@ class ViewController: UIViewController {
         locationManager.distanceFilter = 1
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.pausesLocationUpdatesAutomatically = false
-        
+        locationManager.allowsBackgroundLocationUpdates = true
         
         
         // stop any existing monitered region
