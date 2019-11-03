@@ -16,10 +16,11 @@ alt="IMAGE ALT TEXT HERE" width="651" height="400" border="10" /></a>
 
 </br>
 
-<h5> Background mode</h5>
+<h2> Background mode</h2>
 
-<h6> This type of application required to work while the device in sleep mode, so the feature has been added to this app. </h6>
-
+<ul>
+  <li>This type of application is required to work while the device in sleep mode, so the feature has been added to this app.</li>
+</ul>
 
 
 <h2>Software required</h2>
