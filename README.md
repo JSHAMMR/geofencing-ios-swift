@@ -30,7 +30,12 @@ alt="IMAGE ALT TEXT HERE" width="551" height="335" border="10" /></a>
 </ul>
 
 <h2>Setup</h2>
-<h6> please follow the above youtunbe video</h6>
+
+<ul>
+ <li> For Wifi setting please change "YOUR SSID" and  "YOUR BSSID"  </li>
+ <li> For app flow please follow the above youtunbe video  </li>
+
+</ul>
 
 <h2>Creat fake routing </h2>
 <ul>
