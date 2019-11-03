@@ -26,16 +26,24 @@ class ViewController: UIViewController {
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
-        locationManager.distanceFilter = 5
+        locationManager.distanceFilter = 1
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.pausesLocationUpdatesAutomatically = false
         
+        
+        
+        // stop any existing monitered region
+        
+        for itemRegion in locationManager.monitoredRegions {
+            locationManager.stopMonitoring(for: itemRegion)
+        }
         
         longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPress(_:)))
         longGesture.minimumPressDuration = 0.5
         map.addGestureRecognizer(longGesture)
         
         
-        self.setupCircleGeofencing(title: "test", lat: 3.116103930822632 , long: 101.63855281568493, radius: 100)
+      //  self.setupCircleGeofencing(title: "test", lat: 3.116103930822632 , long: 101.63855281568493, radius: 100)
 
         // Do any additional setup after loading the view.
     }
@@ -84,6 +92,7 @@ class ViewController: UIViewController {
         
         self.present(alert, animated: true)
     }
+    
     
     func chooseAlert(withTitle title: String?, message: String?, lat : Double , long : Double) {
         
@@ -141,7 +150,7 @@ class ViewController: UIViewController {
     }
     
     func region(with coordinate2D: CLLocationCoordinate2D ,radius: Double ) -> CLCircularRegion {
-        let region = CLCircularRegion(center: coordinate2D, radius: radius, identifier: "justIdentifier")
+        let region = CLCircularRegion(center: coordinate2D, radius: radius, identifier: randomString(length: 10))
         region.notifyOnEntry = true
         region.notifyOnExit = true
         return region
@@ -151,9 +160,28 @@ class ViewController: UIViewController {
         map.zoom()
         
     }
+    
+    func randomString(length: Int) -> String {
+        
+        let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        let len = UInt32(letters.length)
+        
+        var randomString = ""
+        
+        for _ in 0 ..< length {
+            let rand = arc4random_uniform(len)
+            var nextChar = letters.character(at: Int(rand))
+            randomString += NSString(characters: &nextChar, length: 1) as String
+        }
+        
+        return randomString
+    }
 
 
 }
+
+
+var routIndex = 1
 
 extension ViewController: CLLocationManagerDelegate {
     
@@ -169,21 +197,59 @@ extension ViewController: CLLocationManagerDelegate {
         print("Location Manager failed with the following error: \(error)")
     }
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        print("enter")
+
+        self.title = "CHECK IN"
+        navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
+
         
     }
     
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
-        print("exit")
+        self.title = "CHECK OUT"
+        navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         
-    print("longitude \(Double((locations.last?.coordinate.longitude)!))\nlatitude \(Double((locations.last?.coordinate.latitude)!))")
+        
+        
+        // zoom to currenuser location
+        map.zoom()
+
+        // print demo routing ....
+        
+        
+        
+        
+        /*
+         print("<wpt lat=\"\(Double((locations.last?.coordinate.latitude)!))\" lon=\"\(Double((locations.last?.coordinate.longitude)!))\">")
+        
+        print("<name>WP\(routIndex)</name>")
+        
+        print("<time>\(Date())</time>")
+        
+        
+        print("</wpt>")
+        routIndex = routIndex + 1
+        */
+        
+        
+        /////////////
+        
+        
+        
+        
+        
+        
+   // print("longitude \(Double((locations.last?.coordinate.longitude)!))\nlatitude \(Double((locations.last?.coordinate.latitude)!))")
 
         
     }
+    
+    
+    
+    
 }
 
 extension ViewController:UIGestureRecognizerDelegate {

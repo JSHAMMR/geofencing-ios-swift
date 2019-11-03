@@ -46,7 +46,7 @@ extension UIViewController {
 extension MKMapView {
     func zoom() {
         guard let coordinate = userLocation.location?.coordinate else { return }
-        let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 300, longitudinalMeters: 300)
+        let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000)
         setRegion(region, animated: true)
     }
     
