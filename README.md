@@ -1,9 +1,9 @@
 <h2> Geofencing iOS App using Swift 5 and MVC Architecture </h2>
-<h6> This app designed to detect circle or polygon regions based on updating location. Below youtube video shows the flow of using this app. </h6>
+<h6> This app designed to detect circle or polygon regions based on updating location. Below dropbox video shows the flow of using this app. </h6>
 </br>
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=twGP6-QcKAA
-" target="_blank"><img src="http://img.youtube.com/vi/twGP6-QcKAA/0.jpg" 
+<a href="https://www.dropbox.com/s/yr8rzzr801qy649/record.mov?dl=0">
+  <img src="http://img.youtube.com/vi/twGP6-QcKAA/0.jpg" 
 alt="IMAGE ALT TEXT HERE" width="551" height="335" border="10" /></a>
 
 </br>
@@ -33,7 +33,7 @@ alt="IMAGE ALT TEXT HERE" width="551" height="335" border="10" /></a>
 
 <ul>
  <li> For Wifi setting please change "YOUR SSID" and  "YOUR BSSID"  </li>
- <li> For app flow please follow the above youtunbe video  </li>
+ <li> For app flow please follow the above dropbox video  </li>
 
 </ul>
 
