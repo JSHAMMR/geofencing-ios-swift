@@ -6,6 +6,7 @@ target 'Geofencing' do
   use_frameworks!
 
   # Pods for Geofencing
+  pod 'GoogleMaps'
 
   target 'GeofencingTests' do
     inherit! :search_paths

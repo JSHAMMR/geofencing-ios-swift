@@ -8,12 +8,14 @@
 
 import UIKit
 import MapKit
+import GoogleMaps
 
 class ViewController: UIViewController {
 
     @IBOutlet weak var map: MKMapView!
-    let locationManager = CLLocationManager()
-    var longGesture = UILongPressGestureRecognizer()
+    fileprivate let locationManager = CLLocationManager()
+    private var longGesture = UILongPressGestureRecognizer()
+    fileprivate var status:String!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,15 +99,19 @@ class ViewController: UIViewController {
     func chooseAlert(withTitle title: String?, message: String?, lat : Double , long : Double) {
         
         
-       
+        if polygonCoordinate.count >  0 { // must be 2 coords or more
+            self.polygonAlert(withTitle: "POLYGON", message: "ADDING TO POLYGON SHAPE \n lat : \(lat) \n long:\(long)", lat: lat, long: long)
+            
+        } else {
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
             let circle = UIAlertAction(title: "CIRCLE", style: .default, handler: { action in
-                
+                self.polygonCoordinate.removeAll()
                 self.circleAlert(withTitle: "CIRCLE", message: "PLEASE ENTER REGION TITLE AND RADIUS \n lat : \(lat) \n long:\(long)", lat: lat, long: long)
             })
             let polygon = UIAlertAction(title: "POLYGON", style: .default, handler: { action in
-                
-                
+                self.polygonCoordinate.removeAll()
+
+                 self.polygonAlert(withTitle: "POLYGON", message: "ADDING TO POLYGON SHAPE \n lat : \(lat) \n long:\(long)", lat: lat, long: long)
             })
             
             alert.addAction(circle)
@@ -114,13 +120,21 @@ class ViewController: UIViewController {
             present(alert, animated: true, completion: nil)
         
         
-        
+        }
         
     }
     
     
+    
+
     func setupCircleGeofencing(title: String, lat:Double ,long:Double, radius:Double ) {
         
+        
+        
+        
+        // remove all existing overlay
+        
+        self.map.removeOverlays(self.map.overlays)
 
         
                 // startMonitoring
@@ -148,6 +162,86 @@ class ViewController: UIViewController {
         
         
     }
+    
+    func setupPolygonGeofencing(title: String, lat:Double ,long:Double) {
+        
+        
+        
+        // remove all existing overlay
+        
+        self.map.removeOverlays(self.map.overlays)
+
+        
+        // add annotation
+
+        
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = self.polygonCoordinate[0]
+        annotation.title = title
+        map.addAnnotation(annotation)
+        
+        
+        // show overlay
+        
+        
+        
+        
+       let polygon = MKPolygon(coordinates: self.polygonCoordinate, count: self.polygonCoordinate.count)
+        
+        
+        map.addOverlay(polygon)
+        
+        
+        
+        
+    }
+    
+    var polygonCoordinate = [CLLocationCoordinate2D]()
+
+    func polygonAlert (withTitle title: String?, message: String?, lat : Double , long : Double) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        var titleStr : String!
+        
+        
+        
+        if polygonCoordinate.count >= 3 { // must be 3 coords or more
+            alert.addTextField(configurationHandler: { textField in
+                textField.placeholder = "Input region title .."
+            })
+            
+            titleStr = "Save"
+            
+        } else {
+            titleStr = "Add"
+            
+        }
+        
+
+        
+        alert.addAction(UIAlertAction(title: titleStr, style: .default, handler: { action in
+            if self.polygonCoordinate.count >= 3 { // must be 2 coords or more
+                self.polygonCoordinate.append(CLLocationCoordinate2D(latitude: lat, longitude: long))
+                let titleAlert = alert.textFields?[0].text
+                
+                
+           
+                
+                self.setupPolygonGeofencing(title: titleAlert!, lat: lat, long: long)
+                
+                
+            } else {
+                
+                self.polygonCoordinate.append(CLLocationCoordinate2D(latitude: lat, longitude: long))
+                
+            }
+            
+        }))
+        
+        self.present(alert, animated: true)
+    }
+    
     
     func region(with coordinate2D: CLLocationCoordinate2D ,radius: Double ) -> CLCircularRegion {
         let region = CLCircularRegion(center: coordinate2D, radius: radius, identifier: randomString(length: 10))
@@ -208,7 +302,7 @@ extension ViewController: CLLocationManagerDelegate {
         self.title = "CHECK OUT"
         navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
     }
-    
+
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         
@@ -242,7 +336,54 @@ extension ViewController: CLLocationManagerDelegate {
         
         
         
+        
+        
    // print("longitude \(Double((locations.last?.coordinate.longitude)!))\nlatitude \(Double((locations.last?.coordinate.latitude)!))")
+        
+        
+        
+        // for polygon
+        
+        
+        
+        if polygonCoordinate.count > 0 { // means the polygon has been chosen
+            let point = CLLocationCoordinate2D(latitude: (locations.last?.coordinate.latitude)!, longitude: (locations.last?.coordinate.longitude)!)
+            
+            let path = GMSMutablePath()
+            self.polygonCoordinate.forEach({
+                
+                
+                path.add($0)
+            })
+            
+            if GMSGeometryContainsLocation(point, path, false) {
+                print("inside")
+                
+                if status != "CHECK IN" {
+                    //self.scheduleNotification(notificationType: "CHECK IN")
+                }
+                
+                status = "CHECK IN"
+                self.title = status
+                navigationController?.navigationBar.barTintColor = UIColor.green
+                
+            } else {
+                
+                if status != "CHECK OUT" {
+                    // self.scheduleNotification(notificationType: "CHECK OUT")
+                    
+                }
+                
+                status = "CHECK OUT"
+                self.title = status
+                navigationController?.navigationBar.barTintColor = UIColor.red
+                
+                print("outside")
+            }
+            
+        }
+        
+       
 
         
     }
@@ -265,6 +406,13 @@ extension ViewController: MKMapViewDelegate {
             circleRenderer.alpha = 0.5
             
             return circleRenderer
+        }
+        if let polygonOverlay = overlay as? MKPolygon {
+            let polygonRenderer = MKPolygonRenderer(overlay: polygonOverlay)
+            polygonRenderer.fillColor = .red
+            polygonRenderer.alpha = 0.5
+            
+            return polygonRenderer
         }
 
         return MKOverlayRenderer(overlay: overlay)
