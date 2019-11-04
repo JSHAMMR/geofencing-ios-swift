@@ -287,7 +287,7 @@
                                     <constraint firstAttribute="height" constant="67" id="dPk-Km-DgY"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
-                                <state key="normal" title="Update">
+                                <state key="normal" title="Update Radius">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>

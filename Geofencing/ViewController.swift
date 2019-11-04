@@ -59,6 +59,8 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        polyCheck = false
+        circleCheck = false
         regionObjects = realm.objects(RegionObject.self)
         self.map.removeOverlays(self.map.overlays)
         
@@ -363,7 +365,7 @@ class ViewController: UIViewController {
     func chooseAlert(withTitle title: String?, message: String?, lat : Double , long : Double) {
         
         
-        if polygonCoordinate.count >  0 { // must be 2 coords or more
+        if polygonCoordinate.count >  0 && !polyCheck { // must be 2 coords or more
             self.polygonAlert(withTitle: "POLYGON", message: "ADDING TO POLYGON SHAPE \n lat : \(lat) \n long:\(long)", lat: lat, long: long)
             
         } else {
@@ -435,7 +437,7 @@ class ViewController: UIViewController {
     
     func setupPolygonGeofencing(title: String, lat:Double ,long:Double) {
         
-        
+        polyCheck = true
         
         // remove all existing overlay
         
@@ -607,6 +609,7 @@ class ViewController: UIViewController {
     
     
     var circleCheck = false
+    var polyCheck = false
 
 }
 
