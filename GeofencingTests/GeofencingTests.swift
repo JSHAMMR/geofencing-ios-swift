@@ -26,8 +26,15 @@ class GeofencingTests: XCTestCase {
         XCTAssertNotNil(viewController.longGesture)
     }
     
+    func testNotification() {
+        
+        XCTAssertTrue(viewController.notificationSetup())
+    }
     
-    
+    func testWifiConnection () {
+       // XCTAssertTrue(viewController!.hasWifi()) // pls use a real device to test this
+    }
+
    
     func testLocationManager() {
         XCTAssertNotNil(viewController.locationManager)
@@ -44,7 +51,7 @@ class GeofencingTests: XCTestCase {
         XCTAssertEqual(CLLocationManager.authorizationStatus(), .authorizedAlways)
     }
     
-//    func testLocationManagerAuthorizationStatusWhenInUse() {
+//    func testLocationManagerAuthorizationStatusWhenInUse() { // in case of authorization when in use 
 //        
 //        XCTAssertEqual(CLLocationManager.authorizationStatus(), .authorizedWhenInUse)
 //    }

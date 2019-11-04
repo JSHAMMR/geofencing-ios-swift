@@ -10,12 +10,34 @@ import UIKit
 import MapKit
 import GoogleMaps
 import UserNotifications
+import RealmSwift
 
 
 
-enum NotificationError: Error {
-    case failedRightNavBarImage
+class RegionObject: Object {
     
+    @objc dynamic var id = ""
+    @objc dynamic var title = ""
+    @objc dynamic var type = ""
+    @objc dynamic var radius = 0.0
+    @objc dynamic var created = Date()
+    override class func primaryKey() -> String? {
+        return "id"
+    }
+}
+
+
+class CoordinatesObject: Object {
+    
+    @objc dynamic var id = ""
+    @objc dynamic var latitude = 0.0
+    @objc dynamic var longitude = 0.0
+    @objc dynamic var regionId = ""
+
+    @objc dynamic var created = Date()
+    override class func primaryKey() -> String? {
+        return "id"
+    }
 }
 
 enum Constants {
@@ -30,8 +52,148 @@ class ViewController: UIViewController {
     var longGesture = UILongPressGestureRecognizer()
     fileprivate var status:String!
     
-   
+    let realm = try! Realm()
 
+    fileprivate var regionObjects:Results<RegionObject>!
+    fileprivate var coordinatesObjects:  Results<CoordinatesObject>!
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        regionObjects = realm.objects(RegionObject.self)
+        self.map.removeOverlays(self.map.overlays)
+        
+        self.map.removeAnnotations(self.map.annotations)
+        
+        regionObjects.forEach({
+            
+            coordinatesObjects = realm.objects(CoordinatesObject.self).filter("regionId = '\($0.id)'")
+            drawOverlays(coordinatesObject: coordinatesObjects, regionObject: $0)
+
+        })
+        
+        
+        
+    }
+    
+    
+    func drawOverlays(coordinatesObject:Results<CoordinatesObject> , regionObject:RegionObject) {
+        
+        
+        
+        
+        if regionObject.type == "circle" {
+            
+            
+            
+            
+            
+            
+            if coordinatesObject.count > 0 {
+                
+                
+                
+                
+                let location = CLLocationCoordinate2D(latitude: coordinatesObject[0].latitude, longitude: coordinatesObject[0].longitude)
+                
+                
+                // startMonitoring
+                
+              
+                locationManager.startMonitoring(for: region(with: location,radius: regionObject.radius))
+                
+                ///
+                
+                
+                
+                let region = MKCoordinateRegion(center: location, latitudinalMeters: 1000, longitudinalMeters: 1000)
+                map.setRegion(region, animated: true)
+                
+                
+                
+                
+                
+                
+                // add annotation
+                
+                
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = location
+                annotation.title = regionObject.title
+                map.addAnnotation(annotation)
+                
+                
+                // show overlay
+                
+                
+                let circle = MKCircle(center: location,
+                                      radius: regionObject.radius)
+                map.addOverlay(circle)
+                
+                
+                
+            }
+            
+        }
+        
+        
+        if regionObject.type == "polygon" {
+            
+            
+            
+            
+            
+            
+            if coordinatesObject.count > 0 {
+                
+               // self.map.removeOverlays(self.map.overlays)
+                
+               // self.map.removeAnnotations(self.map.annotations)
+                
+                let location = CLLocationCoordinate2D(latitude: coordinatesObject[0].latitude, longitude: coordinatesObject[0].longitude)
+                
+                let region = MKCoordinateRegion(center: location, latitudinalMeters: 1000, longitudinalMeters: 1000)
+                map.setRegion(region, animated: true)
+                
+                
+                
+                
+                
+                
+                // add annotation
+                
+                
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = location
+                annotation.title = regionObject.title
+                map.addAnnotation(annotation)
+                
+                
+                // show overlay
+                
+                var polygonCoordinate = [CLLocationCoordinate2D]()
+                
+                coordinatesObject.forEach({
+                    
+                    polygonCoordinate.append(CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude))
+                    
+                })
+                
+                self.polygonCoordinate = polygonCoordinate
+                
+                let polygon = MKPolygon(coordinates: polygonCoordinate, count: polygonCoordinate.count)
+                
+                
+                map.addOverlay(polygon)
+                
+                
+                
+                
+            }
+            
+        }
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -80,16 +242,20 @@ class ViewController: UIViewController {
     
     
     
-    func notificationSetup () {
+    func notificationSetup () -> Bool {
+        
+        
+        var notifCheck = true
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert]) {
             (granted, error) in
             if granted {
-                print("yes")
+                notifCheck =  true
             } else {
-                print("No")
+                notifCheck =  false
             }
         }
         
+        return notifCheck
         
         
     }
@@ -156,6 +322,31 @@ class ViewController: UIViewController {
             
             
             
+            let regionId = self.randomString(length: 3)
+            
+            let coordinate = CoordinatesObject()
+            coordinate.id = self.randomString(length: 3)
+            coordinate.regionId = regionId
+            coordinate.latitude = lat
+            coordinate.longitude = long
+            try! self.realm.write {
+                self.realm.add(coordinate, update: false)
+            }
+            
+            
+            
+            let regionObject = RegionObject()
+            regionObject.id = regionId
+            regionObject.title = titleAlert!
+            regionObject.type = "circle"
+            regionObject.radius = Double(radiusAlert as! String) as! Double
+            
+            try! self.realm.write {
+                self.realm.add(regionObject, update: false)
+            }
+            
+            
+            
             self.setupCircleGeofencing(title: titleAlert!, lat: lat, long: long, radius: Double(radiusAlert as! String) as! Double)
             
             
@@ -164,6 +355,9 @@ class ViewController: UIViewController {
         self.present(alert, animated: true)
     }
     
+    
+    
+    var regionId:String!
     
     func chooseAlert(withTitle title: String?, message: String?, lat : Double , long : Double) {
         
@@ -180,6 +374,11 @@ class ViewController: UIViewController {
             let polygon = UIAlertAction(title: "POLYGON", style: .default, handler: { action in
                 self.polygonCoordinate.removeAll() // clean path
                 self.stopExistingMoniteredRegion() //  stop other monitored regoins
+                
+                
+                
+                
+                
 
                  self.polygonAlert(withTitle: "POLYGON", message: "ADDING TO POLYGON SHAPE \n lat : \(lat) \n long:\(long)", lat: lat, long: long)
             })
@@ -204,7 +403,7 @@ class ViewController: UIViewController {
         
         // remove all existing overlay
         
-        self.map.removeOverlays(self.map.overlays)
+       // self.map.removeOverlays(self.map.overlays)
 
         
                 // startMonitoring
@@ -239,7 +438,7 @@ class ViewController: UIViewController {
         
         // remove all existing overlay
         
-        self.map.removeOverlays(self.map.overlays)
+        //self.map.removeOverlays(self.map.overlays)
 
         
         // add annotation
@@ -261,7 +460,7 @@ class ViewController: UIViewController {
         
         map.addOverlay(polygon)
         
-        
+        //self.polygonCoordinate.removeAll()
         
         
     }
@@ -275,6 +474,8 @@ class ViewController: UIViewController {
         var titleStr : String!
         
         
+        if polygonCoordinate.count == 0  {self.regionId = self.randomString(length: 3)} // new polygon
+
         
         if polygonCoordinate.count >= 3 { // must be 3 coords or more
             alert.addTextField(configurationHandler: { textField in
@@ -292,16 +493,54 @@ class ViewController: UIViewController {
         
         alert.addAction(UIAlertAction(title: titleStr, style: .default, handler: { action in
             if self.polygonCoordinate.count >= 3 { // must be 2 coords or more
+                
+
                 self.polygonCoordinate.append(CLLocationCoordinate2D(latitude: lat, longitude: long))
+                
+                
+                
+                let coordinate = CoordinatesObject()
+                coordinate.id = self.randomString(length: 3)
+                coordinate.regionId = self.regionId
+                coordinate.latitude = lat
+                coordinate.longitude = long
+                try! self.realm.write {
+                    self.realm.add(coordinate, update: false)
+                }
+                
+                
+                
+                
+                
                 let titleAlert = alert.textFields?[0].text
+               // self.polygonCoordinate.removeAll()
                 
+                let regionObject = RegionObject()
+                regionObject.id = self.regionId
+                regionObject.title = titleAlert!
+                regionObject.type = "polygon"
+                regionObject.radius = 0.0 // polygon -> no need for radius
                 
+                try! self.realm.write {
+                    self.realm.add(regionObject, update: false)
+                }
+
            
                 
                 self.setupPolygonGeofencing(title: titleAlert!, lat: lat, long: long)
                 
                 
             } else {
+                
+                let coordinate = CoordinatesObject()
+                coordinate.id = self.randomString(length: 3)
+                coordinate.regionId = self.regionId
+                coordinate.latitude = lat
+                coordinate.longitude = long
+                try! self.realm.write {
+                    self.realm.add(coordinate, update: false)
+                }
+                
                 
                 self.polygonCoordinate.append(CLLocationCoordinate2D(latitude: lat, longitude: long))
                 
@@ -364,6 +603,9 @@ class ViewController: UIViewController {
         }
         return hasWifiB
     }
+    
+    
+    var circleCheck = false
 
 }
 
@@ -387,15 +629,15 @@ extension ViewController: CLLocationManagerDelegate {
 
      
         
+        self.circleCheck = true
         
-        
-        if self.polygonCoordinate.count == 0 { // means no polygon region on the same time
+        //if self.polygonCoordinate.count == 0 { // means no polygon region on the same time
             self.title = "CHECK IN"
             navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
             
             scheduleNotification(title: "CHECK IN", body: "You already enter the geofencing region ..! ")
             
-        }
+        //}
         
     }
     
@@ -403,8 +645,9 @@ extension ViewController: CLLocationManagerDelegate {
         
         
   
-        
-        if self.polygonCoordinate.count == 0 { // means no polygon region on the same time
+        self.circleCheck = false
+
+      //  if self.polygonCoordinate.count == 0 { // means no polygon region on the same time
             
             
             if (!self.hasWifi()) { // means no specific wifi is connected
@@ -415,7 +658,7 @@ extension ViewController: CLLocationManagerDelegate {
             }
 
         
-        }
+      //  }
 
     }
 
@@ -489,7 +732,7 @@ extension ViewController: CLLocationManagerDelegate {
 
 
                 
-            } else {
+            } else if  !self.circleCheck {
                 
                 
                
