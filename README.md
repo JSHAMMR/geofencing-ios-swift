@@ -76,7 +76,7 @@ alt="IMAGE ALT TEXT HERE" width="651" height="400" border="10" /></a>
 <h2>Future Work </h2>
 <ul>
  <li>Add new branch for VIP (Clean Swift) Architecture </li>
-   <li>Allow to detect multi regions on the same time </li>
+   <li>Allow to detect multi regions in the same time </li>
    <li>Add more test cases </li>
 
 
