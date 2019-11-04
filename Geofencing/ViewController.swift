@@ -13,10 +13,7 @@ import UserNotifications
 
 
 
-enum NotificationError: Error {
-    case failedRightNavBarImage
-    
-}
+
 
 enum Constants {
     static let SSID = "YOUR SSID"
@@ -80,16 +77,20 @@ class ViewController: UIViewController {
     
     
     
-    func notificationSetup () {
+    func notificationSetup () -> Bool {
+        
+        
+        var notifCheck = true
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert]) {
             (granted, error) in
             if granted {
-                print("yes")
+                notifCheck =  true
             } else {
-                print("No")
+                notifCheck =  false
             }
         }
         
+        return notifCheck
         
         
     }
