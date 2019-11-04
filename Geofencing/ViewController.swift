@@ -197,7 +197,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        self.title = "Monitering"
+
         
         // notification setup
         notificationSetup()
