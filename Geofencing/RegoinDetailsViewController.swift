@@ -31,6 +31,7 @@ class RegionDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.title = "Region Details"
 
         // Do any additional setup after loading the view.
     }
@@ -46,8 +47,10 @@ class RegionDetailsViewController: UIViewController {
             self.realm.add(regionObjectT, update: true)
         }
         
+        getRegion()
+
         
-        self.navigationController?.popViewController(animated: true)
+       // self.navigationController?.popViewController(animated: true)
         
     }
     
@@ -63,9 +66,6 @@ class RegionDetailsViewController: UIViewController {
             
             if coordinatesObject.count > 0 {
                 
-                self.map.removeOverlays(self.map.overlays)
-                
-                self.map.removeAnnotations(self.map.annotations)
                 
                 let location = CLLocationCoordinate2D(latitude: coordinatesObject[0].latitude, longitude: coordinatesObject[0].longitude)
                 
@@ -109,10 +109,7 @@ class RegionDetailsViewController: UIViewController {
             
             if coordinatesObject.count > 0 {
                 
-                self.map.removeOverlays(self.map.overlays)
-                
-                self.map.removeAnnotations(self.map.annotations)
-                
+              
                 let location = CLLocationCoordinate2D(latitude: coordinatesObject[0].latitude, longitude: coordinatesObject[0].longitude)
                 
                 let region = MKCoordinateRegion(center: location, latitudinalMeters: 1000, longitudinalMeters: 1000)
@@ -156,15 +153,23 @@ class RegionDetailsViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+      
+        getRegion()
+    }
+    
+    
+    func getRegion () {
         regionObject = realm.objects(RegionObject.self).filter("id = '\(regionId)'").first
         coordinatesObject = realm.objects(CoordinatesObject.self).filter("regionId = '\(regionObject.id)'")
         
         radiusTxtFld.text = "\(regionObject.radius)"
-
+        self.map.removeOverlays(self.map.overlays)
+        
+        self.map.removeAnnotations(self.map.annotations)
+        
         drawOverlays()
         self.tableView.reloadData()
     }
-    
     
     
     
