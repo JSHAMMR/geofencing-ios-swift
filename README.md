@@ -2,7 +2,7 @@
 <h6> This app designed to detect circle or polygon regions based on updating location. Below dropbox video shows the flow of using this app. </h6>
 </br>
 
-<a href="https://www.dropbox.com/s/yr8rzzr801qy649/record.mov?dl=0">
+<a href="https://www.dropbox.com/s/t7ne4fvwo8vo558/final%20record.mov?dl=0">
   <img src="https://github.com/JSHAMMR/Geofencing/blob/master/Docs/Screenshot%202019-11-04%20at%201.13.04%20AM.png" 
 alt="IMAGE ALT TEXT HERE" width="651" height="400" border="10" /></a>
 
@@ -23,11 +23,12 @@ alt="IMAGE ALT TEXT HERE" width="651" height="400" border="10" /></a>
 </ul>
 
 
-<h2>Software required</h2>
+<h2>Software required and dependency</h2>
 
 <ul>
   <li>cocoa pods 1.6.0 or later</li>
   <li>pod 'GoogleMaps'</li>
+   <li>pod 'RealmSwift'</li>
 </ul>
 
 <h2>Setup</h2>
@@ -44,7 +45,10 @@ alt="IMAGE ALT TEXT HERE" width="651" height="400" border="10" /></a>
 <h2>Test Cases </h2>
 <ul>
  <li>testGesture</li>
- <li>testLocationManager</li>
+ <li>testNotification</li>
+   <li>testWifiConnection</li>
+   <li>testLocationManager</li>
+
    <li>testLocationManagerServicesEnabled</li>
  <li>testLocationManagerAuthorizationStatusAlways</li>
 
@@ -72,6 +76,10 @@ alt="IMAGE ALT TEXT HERE" width="651" height="400" border="10" /></a>
 <h2>Future Work </h2>
 <ul>
  <li>Add new branch for VIP (Clean Swift) Architecture </li>
+   <li>Allow to detect multi regions on the same time </li>
+   <li>Add more test cases </li>
+
+
 </ul>
 
 
