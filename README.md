@@ -59,7 +59,7 @@ alt="IMAGE ALT TEXT HERE" width="651" height="400" border="10" /></a>
 
 
 
-<h2>Creat fake routing </h2>
+<h2>Simulate routing </h2>
 <ul>
  <li>Using google map to get direction of any route then use this website https://mapstogpx.com/ to convert to GPX </li>
 </ul>
