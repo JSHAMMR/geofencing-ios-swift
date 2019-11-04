@@ -225,6 +225,7 @@ extension RegionDetailsViewController :UITableViewDelegate,UITableViewDataSource
     }
     
     
+    
 }
 extension RegionDetailsViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView,

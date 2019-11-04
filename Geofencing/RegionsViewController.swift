@@ -88,6 +88,21 @@ extension RegionsViewController :UITableViewDelegate,UITableViewDataSource {
         
         
     }
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == .delete) {
+            
+            try! realm.write {
+                realm.delete(userRegions[indexPath.row])
+            }
+            
+            self.tableView.reloadData()
+            // handle delete (by removing the data from your array and updating the tableview)
+        }
+    }
     
     
 }
