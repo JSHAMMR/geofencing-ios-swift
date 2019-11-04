@@ -7,7 +7,9 @@ target 'Geofencing' do
 
   # Pods for Geofencing
   pod 'GoogleMaps'
-
+  pod 'RealmSwift'
+  
+  
   target 'GeofencingTests' do
     inherit! :search_paths
     # Pods for testing
