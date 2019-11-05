@@ -36,7 +36,6 @@ alt="IMAGE ALT TEXT HERE" width="200" height="400" border="10" />
 <h2>Setup</h2>
 
 <ul>
- <li> For Wifi setting please change "YOUR SSID" and  "YOUR BSSID" and use a real device to test wifi  </li>
  <li> For app flow please follow the above dropbox video  </li>
   
  <li style="color:red;">To get Wifi info you have to use app id which configured to allow this feature on developer account  </li>
