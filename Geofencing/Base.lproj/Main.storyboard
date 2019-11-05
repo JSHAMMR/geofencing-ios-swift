@@ -32,11 +32,18 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="Cdb-LW-xoU">
-                        <barButtonItem key="leftBarButtonItem" image="CurrentLocation" id="CG5-ys-2TI">
-                            <connections>
-                                <action selector="locate:" destination="BYZ-38-t0r" id="NPl-re-hrp"/>
-                            </connections>
-                        </barButtonItem>
+                        <leftBarButtonItems>
+                            <barButtonItem image="CurrentLocation" id="CG5-ys-2TI">
+                                <connections>
+                                    <action selector="locate:" destination="BYZ-38-t0r" id="NPl-re-hrp"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Wifi" id="Ibu-N7-cMa">
+                                <connections>
+                                    <action selector="wifiSetup:" destination="BYZ-38-t0r" id="aKJ-Nq-lmV"/>
+                                </connections>
+                            </barButtonItem>
+                        </leftBarButtonItems>
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="edit" id="sJ8-RT-ocW">
                             <connections>
                                 <segue destination="QIW-77-yPp" kind="show" id="UCJ-kB-o9B"/>

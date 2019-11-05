@@ -77,6 +77,35 @@ class ViewController: UIViewController {
         
     }
     
+    @IBAction func wifiSetup(_ sender: Any) {
+        
+            let alert = UIAlertController(title: "WIFI", message: "PLEASE ADD SSID AND BSSID ", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            
+            alert.addTextField(configurationHandler: { textField in
+                textField.placeholder = "Input ssid  .."
+                
+            })
+            
+            alert.addTextField(configurationHandler: { textField in
+                textField.placeholder = "Input bssid  .."
+
+            })
+            
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+       
+                let ssidAlert = alert.textFields?[0].text
+                let bssidAlert = alert.textFields?[1].text
+                
+                UserDefaults.standard.set(ssidAlert, forKey: "SSID")
+                UserDefaults.standard.set(bssidAlert, forKey: "BSSID")
+     
+            }))
+            
+            self.present(alert, animated: true)
+  
+        
+    }
     
     func drawOverlays(coordinatesObject:Results<CoordinatesObject> , regionObject:RegionObject) {
         
@@ -593,7 +622,7 @@ class ViewController: UIViewController {
             
             self.getWifiInfo().forEach({
                 
-                if ($0.bssid == Constants.BSSID || $0.ssid == Constants.SSID) {
+                if ($0.bssid == UserDefaults.standard.string(forKey: "BSSID") || $0.ssid == UserDefaults.standard.string(forKey: "SSID")) {
                     hasWifiB = true
                 } else {
                     hasWifiB = false
