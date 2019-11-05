@@ -24,6 +24,7 @@ class RegionsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Regions"
+        hideKeyboardWhenTappedAround()
 
         // Do any additional setup after loading the view.
     }

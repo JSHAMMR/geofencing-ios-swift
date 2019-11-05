@@ -32,7 +32,7 @@ class RegionDetailsViewController: UIViewController {
         super.viewDidLoad()
         
         self.title = "Region Details"
-
+hideKeyboardWhenTappedAround()
         // Do any additional setup after loading the view.
     }
     @IBAction func update(_ sender: Any) {

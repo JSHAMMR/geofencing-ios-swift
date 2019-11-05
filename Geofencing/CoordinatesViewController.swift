@@ -21,6 +21,7 @@ class CoordinatesViewController: UIViewController {
         
         self.title = "Update Coordinates"
         super.viewDidLoad()
+        hideKeyboardWhenTappedAround()
         coordinatesObject = realm.objects(CoordinatesObject.self).filter("id = '\(coordinateId)'").first
 
         

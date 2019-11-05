@@ -230,7 +230,7 @@ class ViewController: UIViewController {
         
         self.title = "Monitering"
 
-        
+        hideKeyboardWhenTappedAround()
         // notification setup
         notificationSetup()
        
